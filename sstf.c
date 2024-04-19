@@ -1,39 +1,38 @@
-#include<stdio.h>
-#include<math.h>
-int main()
-{
-int queue[100],i,n,seek=0,head,count=0;
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+int main() {
+int queue[100], queue2[100], q_size, head, seek=0, temp;
 float avg;
-printf("Enter the number of Requests : \n");
-scanf("%d",&n);
-printf("Enter the Requests sequence : \n");
-for(i=0;i<n;i++)
+printf("%s\n", "Enter the size of the queue");
+scanf("%d", &q_size);
+printf("%s\n", "Enter queue elements");
+for(int i=0; i<q_size; i++){
 scanf("%d",&queue[i]);
-printf("Enter head head position : \n");
-scanf("%d",&head);
-while(count!=n)
-{
-int min=1000,d,index;
-for(i=0;i<n;i++)
-{
-d=abs(queue[i]-head);     
-if(min>d)                 
-{                          
-min=d;                
-index=i;
 }
-
+printf("%s\n","Enter initial head position");
+scanf("%d", &head);
+for(int i=0; i<q_size; i++){
+queue2[i] = abs(head-queue[i]);
 }
-seek=seek+min;
-printf("\nDisk head moves from %d to %d with  seek %d",head,queue[index],min); 
-head=queue[index];
-queue[index]=1000;
-count++;
+for(int i=0; i<q_size; i++){
+for(int j=i+1; j<q_size;j++){
+if(queue2[i]>queue2[j]){
+temp = queue2[i];
+queue2[i]=queue[j];
+queue2[j]=temp;
+temp=queue[i];
+queue[i]=queue[j];
+queue[j]=temp;
 }
-    
-printf("\n\nTotal head movement is %d \n",seek);
-avg=seek/(float)n;
-printf("Average seek time is %0.2f\n",avg);
+}
+}
+for(int i=0; i<q_size; i++){
+seek = seek+abs(head-queue[i]);
+head = queue[i];
+}
+printf("\nTotal seek time is %d\t",seek);
+avg = seek/(float)q_size;
+printf("\nAverage seek time is %f\t", avg);
 return 0;
 }
-
